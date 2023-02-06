@@ -1,4 +1,5 @@
 from pathlib import Path
+from sys import stdout
 
 import sentry_sdk
 from environ import Env
@@ -47,7 +48,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rectification"
+    "rectification",
+    "ninja"
 ]
 
 MIDDLEWARE = [
@@ -58,6 +60,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "rectification.audit_log.AuditLogMiddleware"
 ]
 
 ROOT_URLCONF = "pysakoinnin_sahk_asiointi.urls"
@@ -124,3 +127,16 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+_audit_log_handler = {
+    "level": "INFO",
+    "class": "logging.StreamHandler",
+    "stream": stdout,
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"audit": _audit_log_handler},
+    "loggers": {"audit": {"handlers": ["audit"], "level": "INFO", "propagate": True}},
+}
