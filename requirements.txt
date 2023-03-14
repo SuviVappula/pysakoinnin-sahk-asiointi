@@ -32,7 +32,7 @@ django-ninja==0.19.1
     # via -r requirements.in
 django-pytest==0.2.0
     # via -r requirements.in
-pytest-cov==2.11.1
+pytest-cov==4.0.0
     # via -r requirements.in
 ecdsa==0.18.0
     # via python-jose
